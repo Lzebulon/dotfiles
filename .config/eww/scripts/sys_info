@@ -1,0 +1,25 @@
+#!/bin/bash
+
+get_bat(){
+	ls /sys/class/power_supply | grep BAT | head -n 1
+}
+
+get_battery(){
+	cat /sys/class/power_supply/$(get_bat)/capacity
+}
+
+is_charging(){
+	status=/sys/class/power_supply/$(get_bat)/
+
+	if [ $(cat ${status}/status) = "Charging" ] ; then
+		echo ""
+	else
+		echo ""
+	fi
+}
+
+if [[ "$1" == "--bat" ]] ; then
+	get_battery
+elif [[ "$1" == "-is-charging" ]] ; then
+	is_charging
+fi

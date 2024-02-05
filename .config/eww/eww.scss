@@ -1,0 +1,49 @@
+$background: #1A1B26;
+$light_background : #3F3F3F;
+$foreground: #A9B1D6;
+
+
+*{
+    all : unset;
+}
+
+
+.bar {
+    background-color: $background;
+    color: $foreground;
+    border-radius: 20px;
+}
+
+
+.workspace-entry {
+    background-color: #1B1B27;
+
+    &.current {
+        background-color: #1F1F2F;
+    }
+
+    &.occupied {
+        color: $foreground;
+    }
+
+    &.empty {
+        color : #A8B0D5;
+    }
+}
+
+.hour {
+    font-weight: bold;
+}
+
+.cal {
+    background-color: $background;
+    border-radius: 20px;
+}
+
+calendar:selected {
+    color : red;
+}
+
+calendar.hightlight {
+    color : #00FF00;
+}

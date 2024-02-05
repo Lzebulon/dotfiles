@@ -1,0 +1,47 @@
+[font.bold]
+family = "FiraMonoNerdFont"
+style = "Bold"
+
+[font.bold_italic]
+family = "FiraMonoNerdFont"
+style = "Bold Italic"
+
+[font.italic]
+family = "FiraMonoNerdFont"
+style = "Italic"
+
+[font.normal]
+family = "FiraMonoNerdFont"
+style = "Regular"
+
+
+[colors]
+primary = { background = "0x111117", foreground = "0xcfcfcf"}
+
+[colors.normal]
+black = "0x000000"
+red = "0xf03030"
+green = "0x30f030"  
+blue = "0x3030f0"  
+yellow = "0xeecc55"
+magenta = "0xcc55ee"
+cyan = "0x55eecc"
+white = "0xf0f0f0"
+
+
+[colors.bright]
+black = "0x212121"
+red = "0xff0000"
+green = "0x00ff00"  
+blue = "0x0000ff"  
+yellow = "0xffee99"
+magenta = "0xee99ff"
+cyan = "0x99ffee"
+white = "0xffffff"
+
+
+
+
+
+
+

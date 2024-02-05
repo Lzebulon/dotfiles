@@ -1,0 +1,109 @@
+(defwindow powermenu
+    :monitor 0
+    :stacking "fg"
+	:exclusive "true"
+    :windowtype "dock"
+    :geometry
+        (geometry
+		 :anchor "bottom center"
+         :width "99%"
+         :height "33px"
+         )
+	:reserve (struts :distance "5%" :side "bot")
+    (powermenu_layout)
+)
+
+
+
+; Time
+(defpoll hour :interval "1s" `date +%H`)
+(defpoll min :interval "1s" `date +%M`)
+(defpoll second :interval "1s" `date +%S`)
+(defpoll day :interval "1s" `date +%A`)
+(defpoll month :interval "1s" `date +%m`)
+(defpoll year :interval "1s" `date +%Y`)
+(defpoll date :interval "1s" `date +%D`)
+
+; Battery
+(defpoll battery :interval "1s" `./scripts/sys_info --bat`)
+(defpoll battery-charging :interval "1s" `./scripts/sys_info -is-charging`)
+
+
+(defwidget powermenu_layout []
+  (box :orientation "horizontal" :class "bar"
+       (workspaces)
+       (window_w)
+	   (label :text "${battery-charging} ${battery}")
+       (wdate)
+	   )
+)
+
+(defwidget wdate []
+  (button
+   :onclick `eww close calendar || eww open calendar`
+  (box :orientation "v"
+	   (label :class "hour" :text "${hour}:${min}:${second}")
+	   (label :class "date" :text "${date}")
+       )
+   )
+  )
+
+
+(defwindow calendar
+    :monitor 0
+    :geometry (geometry
+               :x "5px"
+               :y "5px"
+               :anchor "bottom right"
+               :width "20%"
+               :height "20%"
+               )
+    (cal)
+    )
+
+
+(defwidget cal []
+  (box :orientation "v"
+       (box
+        (calendar
+         :class "cal"
+         :show-details true
+         :show-day-names true
+         :show-week-numbers true
+         )
+        )
+       )
+  )
+
+
+; workspaces
+
+; code from hypr documentation
+; https://wiki.hyprland.org/Useful-Utilities/Status-Bars/#configuration
+
+(deflisten workspaces :initial "[]" "bash ~/.config/eww/scripts/get-workspaces")
+(deflisten current_workspace :initial "1" "bash ~/.config/eww/scripts/get-active-workspace")
+
+(defwidget workspaces []
+  (eventbox :onscroll "bash ~/.config/eww/scripts/change-active-workspace {} ${current_workspace}" :class "workspaces-widget"
+    (box :space-evenly true
+      (label :text "${workspaces}${current_workspace}" :visible false)
+      (for workspace in workspaces
+        (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
+          (box :class "workspace-entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}"
+            (label :text "${workspace.id}")
+            )
+          )
+        )
+      )
+    )
+  )
+
+(deflisten window :initial "..." "sh ~/.config/eww/scripts/get-window-title")
+
+(defwidget window_w []
+  (box
+    (label :text "${window}"
+    )
+  )
+)
